@@ -3,6 +3,8 @@ from openpyxl import load_workbook
 from datetime import datetime
 import os
 
+from openpyxl.workbook import Workbook
+
 app = Flask(__name__)
 
 EXCEL_PATH = "orders.xlsx"
@@ -43,7 +45,11 @@ def webhook():
                 },
                 "version": req.get("version", "1.0")
             })
-
+        if not os.path.exists(EXCEL_PATH):
+            wb = Workbook()
+            ws = wb.active
+            ws.append(["Дата", "Имя", "Заказ", "Сумма"])  # заголовки
+            wb.save(EXCEL_PATH)
         wb = load_workbook(EXCEL_PATH)
         sheet = wb.active
         sheet.append([datetime.now().strftime('%Y-%m-%d %H:%M:%S'), name, order, amount])
