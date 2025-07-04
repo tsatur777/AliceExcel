@@ -5,6 +5,11 @@ from openpyxl import load_workbook
 from datetime import datetime
 import os
 
+import gspread
+import pandas as pd
+import requests
+from oauth2client.service_account import ServiceAccountCredentials
+
 from openpyxl.workbook import Workbook
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
@@ -13,6 +18,8 @@ app = Flask(__name__)
 
 EXCEL_PATH = "orders.xlsx"
 
+TELEGRAM_TOKEN = "7620794016:AAFUXwsrEnCzvdND5VIWAy4udZ7AKlKTuSs"
+TELEGRAM_CHAT_ID = "411305367"
 
 @app.route("/", methods=["GET"])
 def index():
@@ -24,7 +31,24 @@ def get_sheet():
     client = gspread.authorize(creds)
     sheet = client.open_by_key("15k1hPC9tBsOwBQ5FiHe-ZAjyBAXEvlEoBIZnGn9y0cE").sheet1
     return sheet
+def export_sheet_to_excel(sheet_id, filename):
+    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+    creds_json = json.loads(os.environ["GOOGLE_CREDENTIALS"])
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_json, scope)
+    client = gspread.authorize(creds)
+    sheet = client.open_by_key(sheet_id).sheet1
+    data = sheet.get_all_records()
+    df = pd.DataFrame(data)
+    df.to_excel(filename, index=False)
 
+def send_excel_to_telegram(filename):
+    with open(filename, 'rb') as f:
+        response = requests.post(
+            f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendDocument",
+            data={"chat_id": TELEGRAM_CHAT_ID},
+            files={"document": f}
+        )
+    return response.status_code == 200
 @app.route("/dump", methods=["GET"])
 def dump_excel():
     from openpyxl import load_workbook
@@ -47,7 +71,18 @@ def webhook():
     try:
         req = request.get_json()
         command = req.get("request", {}).get("original_utterance", "").lower()
-
+        if "выгрузи" in command and "телеграм" in command:
+            filename = "report.xlsx"
+            export_sheet_to_excel("15k1hPC9tBsOwBQ5FiHe-ZAjyBAXEvlEoBIZnGn9y0cE", filename)
+            ok = send_excel_to_telegram(filename)
+            text = "Отправил файл в Telegram." if ok else "Не удалось отправить файл."
+            return jsonify({
+                "response": {
+                    "text": text,
+                    "end_session": True
+                },
+                "version": req.get("version", "1.0")
+            })
         if not command:
             return jsonify({
                 "response": {
