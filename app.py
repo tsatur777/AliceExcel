@@ -1,3 +1,5 @@
+import json
+
 from flask import Flask, request, jsonify
 from openpyxl import load_workbook
 from datetime import datetime
@@ -17,7 +19,8 @@ def index():
     return "Навык Алисы работает!"
 def get_sheet():
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-    creds = ServiceAccountCredentials.from_json_keyfile_name("orderfromalice-b1419c4bfb98.json", scope)
+    creds_json = json.loads(os.environ["GOOGLE_CREDENTIALS"])
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_json, scope)
     client = gspread.authorize(creds)
     sheet = client.open_by_key("15k1hPC9tBsOwBQ5FiHe-ZAjyBAXEvlEoBIZnGn9y0cE").sheet1
     return sheet
