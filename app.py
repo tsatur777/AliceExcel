@@ -4,6 +4,8 @@ from datetime import datetime
 import os
 
 from openpyxl.workbook import Workbook
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
 
 app = Flask(__name__)
 
@@ -13,6 +15,12 @@ EXCEL_PATH = "orders.xlsx"
 @app.route("/", methods=["GET"])
 def index():
     return "Навык Алисы работает!"
+def get_sheet():
+    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+    creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
+    client = gspread.authorize(creds)
+    sheet = client.open_by_key("15k1hPC9tBsOwBQ5FiHe-ZAjyBAXEvlEoBIZnGn9y0cE").sheet1
+    return sheet
 
 @app.route("/dump", methods=["GET"])
 def dump_excel():
@@ -35,25 +43,22 @@ def dump_excel():
 def webhook():
     try:
         req = request.get_json()
-
-        # Безопасно достаём поля из запроса
         command = req.get("request", {}).get("original_utterance", "").lower()
 
         if not command:
             return jsonify({
                 "response": {
-                    "text": "Я не услышала команду. Попробуй ещё раз.",
+                    "text": "Я не услышала команду.",
                     "end_session": True
                 },
                 "version": req.get("version", "1.0")
             })
 
-        # Пример: "добавь в таблицу Иван заказ 222 сумма 3000"
         try:
             name = command.split("таблицу")[1].split("заказ")[0].strip()
             order = command.split("заказ")[1].split("сумма")[0].strip()
             amount = command.split("сумма")[1].strip()
-        except Exception as e:
+        except:
             return jsonify({
                 "response": {
                     "text": "Не смог разобрать данные. Скажи: добавь в таблицу Иван заказ 123 сумма 4000.",
@@ -61,16 +66,10 @@ def webhook():
                 },
                 "version": req.get("version", "1.0")
             })
-        if not os.path.exists(EXCEL_PATH):
-            wb = Workbook()
-            ws = wb.active
-            ws.append(["Дата", "Имя", "Заказ", "Сумма"])  # заголовки
-            wb.save(EXCEL_PATH)
-        wb = load_workbook(EXCEL_PATH)
-        sheet = wb.active
-        sheet.append([datetime.now().strftime('%Y-%m-%d %H:%M:%S'), name, order, amount])
-        wb.save(EXCEL_PATH)
-        print("Сохраняем в файл:", os.path.abspath(EXCEL_PATH), flush=True)
+
+        sheet = get_sheet()
+        sheet.append_row([datetime.now().strftime('%Y-%m-%d %H:%M:%S'), name, order, amount])
+
         return jsonify({
             "response": {
                 "text": f"Добавил: {name}, заказ {order}, сумма {amount}.",
@@ -82,11 +81,11 @@ def webhook():
     except Exception as e:
         return jsonify({
             "response": {
-                "text": f"Внутренняя ошибка: {str(e)}",
+                "text": f"Ошибка: {str(e)}",
                 "end_session": True
             },
             "version": "1.0"
-        }), 200  # ❗ 200, чтобы Алиса не считала это ошибкой
+        }), 200
 
 
 if __name__ == "__main__":
