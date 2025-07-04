@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "orderfromalice",
+  "private_key_id": "b1419c4bfb9895d0f684e8af01ca381277ca32b7",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDMwpnrz7qIkmmM\n7C8d4hWZkoWE1Q29R+yqS70S7P7eVry+L+yYDeagxLDl8OMxZwTERjgKYIB2P1C9\nL479ns2HERYfE6IArhQIu3VW5lZ8WBZPfl9LrCwbFGe1Pihfm0WCWC5fjDu2uUOk\n1wY/TyCaWT7mYKPQrB3+1HcTseHfwgrUbQ6sGYuiRpyXpXboj/wEaLYH7fg185UI\npsLC5pzIztsD/79kqQKE9PVBnnOfalQfmdUHNFvhq5tfyuBtwptaqV7hsfeFSzaG\nivKKzdPdR+wZW3+EMzQaR1Vddl1EbCEm7fjnO8F3JKLfLtOGdPVpxVTsRD8DVRoH\n67FFcgUvAgMBAAECggEAT1aJ0GqdYsSkXEO5n/EVoHs6+/SXjcNcKsINAVPOD3V5\nTZIBMQuV1K5Rws7bIS3DFZAFr9Ojgu3WiW9vjsrk5RRUR3dSesP4pEeKWEEIusZg\n4q1bHFWag2WdJ4dtmlnuDWrAkSojixHu6WSdmZM91UCGVDqWzsiaGL7XYsy2cf2q\ndSelHJ+rMgjS7wZd5Vuq3QPK0lftbke2OWyStNFEp7xQXvejhotHJfehQeqT2Baq\nszL5/s9wyjcAAv4dwrvKi4sDzicHiQXCI9RCXuDZz9DUfG/67ojhv2pJPEbuSwzS\nrD9kUIHYFOu5PTirVo3AOom3HO+cU4Y8N3d3UO4xvQKBgQDzcUbiMNysmIFySuKC\nr33ntLVnOhYbpvERmyYOcwv3D2Viu9guBXjVYK5z/iD/442xHcmGoTaxqUMYXepZ\njuPDwpfPjzRUWtM9YYVKdOmwMADM9Vq3xFZEtHi3CxzZYGm1/WGW3HQh/JgcotrM\nIqwhRc+QaWUbsjkx2VZIM4nbdQKBgQDXUoOPMzQ0AGEVT+OFwnfiITV24D6ActTC\nX8dxkx84hLEpflYmDzMvBPcOjD5ZuOxM2n1ezD3GrF2fI6sZLBZ7swz23Fl1apU3\nrZwg27weoSYIHgPchuPsd1AfHrdtUZt7JUDJnl0ZCV4vF+FRZkikT9B4YrmfaqEW\nvtxQheHdkwKBgEp6M2dr73dWSPQAeP/mVKyYmo70NGNNVZ8/SgtNozF4olnsghzC\nS89r/rM54jqnEWhIZqkrlSIRWJeR0+qGTqRLWkqD00yjZND4juDSl9PxO614usJR\n7NqkI/JMEg1m87Bbzolq9JSZRKguIqYlTWf4haH2vJoWkmzvwvff3KMpAoGAapak\nHW0heGR/qocjgAFmSwBZcQFMr1Uo0ReMqUJFADtfX8T0bF613Z69lewCqXOLNfgq\ne5TrN7/3kGGdvxY+Avn9fu5RMniSaT99vB5KH3dyVi5VhwMXLOVbOiyAbJMrPmiQ\ni73jJBOpFfLiTOMvLnd8ITvt22ZzW8kbUpkT2BUCgYAH2U/GjB57rxflcpc4Zc8U\nfnzgBwvuHX1yYEy9W/Ykcuzzojlw9y+3ZN5ZN/ktLa+6/uMRpBMEdRHTDse2cDdq\nTZDfCECDAMBa8SOcKxVwtIWGUKLODfsq4Po1Tr0EfIvkEDQAg4e0pxLg6b9hPSMN\nQ0jUZZL1W7RlPmmM4qvSPQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "order-bot@orderfromalice.iam.gserviceaccount.com",
+  "client_id": "116933758470752540036",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/order-bot%40orderfromalice.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
