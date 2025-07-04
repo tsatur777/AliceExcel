@@ -54,7 +54,7 @@ def webhook():
         sheet = wb.active
         sheet.append([datetime.now().strftime('%Y-%m-%d %H:%M:%S'), name, order, amount])
         wb.save(EXCEL_PATH)
-
+        print(os.path.abspath(EXCEL_PATH))
         return jsonify({
             "response": {
                 "text": f"Добавил: {name}, заказ {order}, сумма {amount}.",
