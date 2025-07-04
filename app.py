@@ -14,6 +14,22 @@ EXCEL_PATH = "orders.xlsx"
 def index():
     return "Навык Алисы работает!"
 
+@app.route("/dump", methods=["GET"])
+def dump_excel():
+    from openpyxl import load_workbook
+    import io
+
+    if not os.path.exists(EXCEL_PATH):
+        return "Файл не найден", 404
+
+    wb = load_workbook(EXCEL_PATH)
+    ws = wb.active
+
+    data = []
+    for row in ws.iter_rows(values_only=True):
+        data.append(row)
+
+    return jsonify(data)
 
 @app.route("/webhook", methods=["POST"])
 def webhook():
